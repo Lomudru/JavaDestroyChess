@@ -2,6 +2,17 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        int[][] plateauDeJeu = {{0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,2,0,0,0,0,0},
+                                {0,0,0,0,0,3,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0}};
+        afficherTableau(plateauDeJeu);
         // Affiche le titre du jeu
         System.out.println("\n" +
                 "████████▄     ▄████████    ▄████████     ███        ▄████████  ▄██████▄  ▄██   ▄    ▄████████    ▄█    █▄       ▄████████    ▄████████    ▄████████ \n" +
@@ -66,5 +77,27 @@ public class Main {
         System.out.println("│ La partie se termine lorsqu'il reste un seul survivant                                       │");
         System.out.println("│ Un joueur gagne 5 point lorsqu'il est le dernier survivant et perd 2 point lorsqu'il meurt   │");
         System.out.println("╰──────────────────────────────────────────────────────────────────────────────────────────────╯");
+    }
+    public static void afficherTableau(int[][] Tableau){
+        //initialise une varibale nb pour les Colones et les Lignes
+        int nbLignes=Tableau.length;
+        int nbColones=Tableau[0].length;
+        for (int idLignes=0; idLignes < nbLignes; idLignes++){
+            for (int idColones=0; idColones < nbColones; idColones++){
+                if (Tableau[idLignes][idColones] == 0) {
+                    System.out.printf("⬜");
+                }
+                if (Tableau[idLignes][idColones] == 1) {
+                    System.out.printf("⬛");
+                }
+                if (Tableau[idLignes][idColones] == 2) {
+                    System.out.printf("\uD83D\uDFE5");
+                }
+                if (Tableau[idLignes][idColones] == 3) {
+                    System.out.printf("\uD83D\uDFE6");
+                }
+            }
+            System.out.printf("\n");
+        }
     }
 }
