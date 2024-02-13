@@ -10,14 +10,27 @@ public class Main {
 
     /** Affiche le menu et renvoie vers la fonction demandée */
     public static void menu(Scanner scanner) {
+        System.out.println("\n" +
+                "████████▄     ▄████████    ▄████████     ███        ▄████████  ▄██████▄  ▄██   ▄    ▄████████    ▄█    █▄       ▄████████    ▄████████    ▄████████ \n" +
+                "███   ▀███   ███    ███   ███    ███ ▀█████████▄   ███    ███ ███    ███ ███   ██▄ ███    ███   ███    ███     ███    ███   ███    ███   ███    ███ \n" +
+                "███    ███   ███    █▀    ███    █▀     ▀███▀▀██   ███    ███ ███    ███ ███▄▄▄███ ███    █▀    ███    ███     ███    █▀    ███    █▀    ███    █▀  \n" +
+                "███    ███  ▄███▄▄▄       ███            ███   ▀  ▄███▄▄▄▄██▀ ███    ███ ▀▀▀▀▀▀███ ███         ▄███▄▄▄▄███▄▄  ▄███▄▄▄       ███          ███        \n" +
+                "███    ███ ▀▀███▀▀▀     ▀███████████     ███     ▀▀███▀▀▀▀▀   ███    ███ ▄██   ███ ███        ▀▀███▀▀▀▀███▀  ▀▀███▀▀▀     ▀███████████ ▀███████████ \n" +
+                "███    ███   ███    █▄           ███     ███     ▀███████████ ███    ███ ███   ███ ███    █▄    ███    ███     ███    █▄           ███          ███ \n" +
+                "███   ▄███   ███    ███    ▄█    ███     ███       ███    ███ ███    ███ ███   ███ ███    ███   ███    ███     ███    ███    ▄█    ███    ▄█    ███ \n" +
+                "████████▀    ██████████  ▄████████▀     ▄████▀     ███    ███  ▀██████▀   ▀█████▀  ████████▀    ███    █▀      ██████████  ▄████████▀   ▄████████▀  \n" +
+                "                                                   ███    ███                                                                                       \n");
         // Afficher les options disponibles pour la navigation
-        System.out.println("---------------------------");
-        System.out.println("| Que voulez-vous faire ?  |");
-        System.out.println("| 1. Jouer                 |");
-        System.out.println("| 2. Scores                |");
-        System.out.println("| 3. Règles                |");
-        System.out.println("| 4. Quitter               |");
-        System.out.println("---------------------------");
+
+        System.out.println("╭───────────────────────────╮");
+        System.out.println("│  Que voulez-vous faire ?  │");
+        System.out.println("├───────────────────────────┤");
+        System.out.println("│ 1. Jouer                  │");
+        System.out.println("│ 2. Scores                 │");
+        System.out.println("│ 3. Règles                 │");
+        System.out.println("│ 4. Quitter                │");
+        System.out.println("╰───────────────────────────╯");
+
         // Demande à l'utilisateur de choisir une option
         String reponse = scanner.nextLine();
         if ((reponse.equals("1")) || reponse.toLowerCase().equals("jouer")) {
