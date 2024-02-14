@@ -49,7 +49,7 @@ public class Main {
                                     {0,0,0,0,0,0,0,0,0,0,0},
                                     {0,0,0,0,0,0,0,0,0,0,0},
                                     {0,0,0,0,0,0,0,0,0,0,0}};
-            Jeu(plateauDeJeu);
+            setupJeu(plateauDeJeu);
         } else if ((reponse.equals("2")) || reponse.toLowerCase().equals("scores")) {
             // Si la réponse est 2 ou scores, on affiche les scores
             System.out.println("Les scores");
@@ -108,9 +108,8 @@ public class Main {
             System.out.printf("\n");
         }
     }
-    /** Fonction de déroulement du jeu */
-    //Fonction de déroulement de jeu en tant que tel
-    public static void Jeu(int[][] plateau){
+   /** Fonction qui prépare tout ce qui vas se passer dans le jeu */
+    public static void setupJeu(int[][] plateau){
         // Defini les joueurs et leurs attribue une couleurs
         Joueur joueur1 = new Joueur();
         joueur1.setPseudo("Rouge");
@@ -136,9 +135,86 @@ public class Main {
         // On met les coordonnée par default au deuxième joueur
         deuxiemeAJouer.setCoordoneeX(5);
         deuxiemeAJouer.setCoordoneeY(5);
+        Jeu(plateau,premierAJouer, deuxiemeAJouer);
+    }
+    /** Fonction de déroulement du jeu */
+    //Fonction de déroulement de jeu en tant que tel
+    public static int aQuiDeJouer = 0;
+    public static void Jeu(int[][] plateau, Joueur premierJoueur, Joueur deuxiemeJoueur){
         // On change le plateau afin d'y appliquer les coordonnée du joueur et on affiche le plateau
-        plateau[premierAJouer.getCoordoneeX()][premierAJouer.getCoordoneeY()] = premierAJouer.getCouleur();
-        plateau[deuxiemeAJouer.getCoordoneeX()][deuxiemeAJouer.getCoordoneeY()] = deuxiemeAJouer.getCouleur();
+
+        // Donne une couleur aléatoire au joueur
+        plateau[premierJoueur.getCoordoneeX()][premierJoueur.getCoordoneeY()] = premierJoueur.getCouleur();
+        plateau[deuxiemeJoueur.getCoordoneeX()][deuxiemeJoueur.getCoordoneeY()] = deuxiemeJoueur.getCouleur();
         afficherTableau(plateau);
+        // permet de déterminer qui joue aléatoirement en premier en début de partie
+        if (aQuiDeJouer == 0){
+            aQuiDeJouer = 1;
+            System.out.println(premierJoueur.getPseudo() + " a toi de jouer");
+            mouvement(plateau, premierJoueur, new Joueur[]{premierJoueur,deuxiemeJoueur});
+        } else if (aQuiDeJouer == 1) {
+            aQuiDeJouer = 0;
+            System.out.println(deuxiemeJoueur.getPseudo() + " a toi de jouer");
+            mouvement(plateau, deuxiemeJoueur, new Joueur[]{premierJoueur,deuxiemeJoueur});
+        }
+    }
+    /** Fonction de déplacement pour le joueur */
+    public static void mouvement(int[][] plateau, Joueur aFaireBouger, Joueur[] joueurs){
+        // demande au joueur ou il veut se déplacé et on lui montre les settings du jeu
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Où voulez vous vous dirigez");
+        System.out.println("Z: haut| Q: gauche| S: bas|D:droite");
+        String direction = scanner.nextLine();
+        // lorsque le joueur appui sur z ilse déplace vers la haut
+        if (direction.toLowerCase().equals("z") && aFaireBouger.getCoordoneeX()-1 != -1){
+            if (plateau[aFaireBouger.getCoordoneeX()-1][aFaireBouger.getCoordoneeY()] == 0){
+                plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
+                aFaireBouger.setCoordoneeX(aFaireBouger.getCoordoneeX()-1);
+            }else {
+                System.out.println("La case est deja occuper");
+                mouvement(plateau, aFaireBouger, joueurs);
+            }
+            // lorsque le joueur appui sur s ilse déplace vers la bas
+        }else if (direction.toLowerCase().equals("s") && aFaireBouger.getCoordoneeX()+1 != plateau.length){
+            if (plateau[aFaireBouger.getCoordoneeX()+1][aFaireBouger.getCoordoneeY()] == 0){
+                plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
+                aFaireBouger.setCoordoneeX(aFaireBouger.getCoordoneeX()+1);
+            }else {
+                System.out.println("La case est deja occuper");
+                mouvement(plateau, aFaireBouger, joueurs);
+            }
+            // lorsque le joueur appui sur q ilse déplace vers la gauche
+            // on regarde si il peut se déplacé a gauche
+        }else if (direction.toLowerCase().equals("q") && aFaireBouger.getCoordoneeY()-1 != -1){
+            // on vérifie que la case est égal à 0
+            if (plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()-1] == 0){
+                // on change la couleur ou est placer le joueur à 0 c'est à dire en blanc
+                plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
+                // on déplace le joueur en -1 en
+                aFaireBouger.setCoordoneeY(aFaireBouger.getCoordoneeY()-1);
+            }else {
+                System.out.println("La case est deja occuper");
+                mouvement(plateau, aFaireBouger, joueurs);
+            }
+            // lorsque le joueur appui sur d ilse déplace vers la droite
+            // on regarde si il peut se déplacé a droite
+        }else if (direction.toLowerCase().equals("d") && aFaireBouger.getCoordoneeY()+1 != plateau[0].length ){
+            // on vérifie que la case est égal à 0
+            if (plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()+1] == 0){
+            // on change la couleur ou est placer le joueur à 0 c'est à dire en blanc
+                plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
+                // on déplace le joueur en +1 en y
+                aFaireBouger.setCoordoneeY(aFaireBouger.getCoordoneeY()+1);
+            }else {
+                // si la case ou le joueur veut se déplacé est occupé par un autre alors on affiche se message
+                System.out.println("La case est deja occuper");
+                mouvement(plateau, aFaireBouger, joueurs);
+            }
+        }else {
+            // si le joueur appui sur une autre touche que Z Q S D alors on affiche se message d'erreur et il peut recommencer
+            System.out.println("Commande inconnue, veuillez ressayer");
+            mouvement(plateau, aFaireBouger, joueurs);
+        }
+        Jeu(plateau, joueurs[0], joueurs[1]);
     }
 }
