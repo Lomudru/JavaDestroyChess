@@ -10,25 +10,25 @@ public class Jeu {
         //initialise une varibale nb pour les Colones et les Lignes
         int nbLignes=Tableau.length;
         int nbColones=Tableau[0].length;
-        String[] Alphabet = {"  A ","B ","C ","D","E ","F ","G ","H ","I ","J","K"};
+        String[] Alphabet = {"  A","B","C","D","E","F","G","H","I","J","K"};
         for (int idLettres=0; idLettres < nbColones; idLettres++) {
-            System.out.printf(Alphabet[idLettres]+"ㅤ");
+            System.out.printf(Alphabet[idLettres]+" ");
         }
         System.out.printf("\n");
         for (int idLignes=0; idLignes < nbLignes; idLignes++){
             System.out.printf(idLignes+" ");
             for (int idColones=00; idColones < nbColones; idColones++){
                 if (Tableau[idLignes][idColones] == 0) {
-                    System.out.printf("⬜ ");
+                    System.out.printf("⬜");
                 }
                 if (Tableau[idLignes][idColones] == 1) {
-                    System.out.printf("⬛ ");
+                    System.out.printf("⬛");
                 }
                 if (Tableau[idLignes][idColones] == 2) {
-                    System.out.printf("\uD83D\uDFE5 ");
+                    System.out.printf("\uD83D\uDFE5");
                 }
                 if (Tableau[idLignes][idColones] == 3) {
-                    System.out.printf("\uD83D\uDFE6 ");
+                    System.out.printf("\uD83D\uDFE6");
                 }
             }
             System.out.printf("\n");
