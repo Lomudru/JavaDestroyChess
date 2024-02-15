@@ -5,7 +5,6 @@ public class Joueur {
     String Pseudo;
     int coordoneeX;
     int coordoneeY;
-    Boolean enJeu;
     int couleur;
 
     public int getScore() {
@@ -38,14 +37,6 @@ public class Joueur {
 
     public void setCoordoneeY(int coordoneeY) {
         this.coordoneeY = coordoneeY;
-    }
-
-    public Boolean getEnJeu() {
-        return enJeu;
-    }
-
-    public void setEnJeu(Boolean enJeu) {
-        this.enJeu = enJeu;
     }
 
     public int getCouleur() {
