@@ -2,6 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 import classe.Joueur;
 import fonctionnalite.Jeu;
+import fonctionnalite.Regles;
 import javax.print.attribute.standard.JobOriginatingUserName;
 
 public class Main {
@@ -26,6 +27,7 @@ public class Main {
 
     /** Affiche le menu et renvoie vers la fonction demandée */
     public static void menu(Scanner scanner) {
+        Regles regles = new Regles();
         // Afficher les options disponibles pour la navigation
         System.out.println("╭───────────────────────────╮");
         System.out.println("│  Que voulez-vous faire ?  │");
@@ -57,7 +59,7 @@ public class Main {
             System.out.println("Les scores");
         } else if ((reponse.equals("3")) || reponse.toLowerCase().equals("règles")) {
             // Si la réponse est 3 ou règles, on affiche les règles
-            regles();
+            regles.regles();
         } else if ((reponse.equals("4")) || reponse.toLowerCase().equals("quitter")) {
             // Si la réponse est 4 ou quitter, on dit au revoir et on arrête le code
             System.out.println("Au revoir");
@@ -69,19 +71,7 @@ public class Main {
         // Et puis on rappelle la fonction
         menu(scanner);
     }
-    /** Affiche les règles du jeu */
-    public static void regles()
-    {
-        System.out.println("╭──────────────────────────────────────────────────────────────────────────────────────────────╮");
-        System.out.println("│  Règles                                                                                      │");
-        System.out.println("├──────────────────────────────────────────────────────────────────────────────────────────────┤");
-        System.out.println("│ Un joueur ne peut pas se déplacé en diagonale.                                               │");
-        System.out.println("│ Si le joueur n'a plus la possibilité de se déplacé autour de lui, il a perdu.                │");
-        System.out.println("│ Le joueur peut détruire une case lorsqu'il s'est déplacé.                                    │");
-        System.out.println("│ La partie se termine lorsqu'il reste un seul survivant                                       │");
-        System.out.println("│ Un joueur gagne 5 point lorsqu'il est le dernier survivant et perd 2 point lorsqu'il meurt   │");
-        System.out.println("╰──────────────────────────────────────────────────────────────────────────────────────────────╯");
-    }
+
 
 
 

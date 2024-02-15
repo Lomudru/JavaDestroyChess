@@ -1,7 +1,7 @@
 package fonctionnalite;
 
 import classe.Joueur;
-
+import fonctionnalite.VerifVictoireDefaite;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -75,24 +75,37 @@ public class Jeu {
     public static void Jeu(int[][] plateau, Joueur premierJoueur, Joueur deuxiemeJoueur){
         Mouvement mouvementClasse = new Mouvement();
         int[][] mouvement;
+        VerifVictoireDefaite verification = new VerifVictoireDefaite();
         boolean inJeu = true;
+        Joueur perdant = new Joueur();
         while (inJeu){
             // Donne une couleur aléatoire au joueur
             afficherTableau(plateau);
             // permet de déterminer qui joue aléatoirement en premier en début de partie
             if (aQuiDeJouer == 0){
                 aQuiDeJouer = 1;
-                System.out.println(premierJoueur.getPseudo() + " a toi de jouer");
-                plateau = mouvementClasse.mouvement(plateau, premierJoueur);
-                afficherTableau(plateau);
-                plateau = DetruireBloc.detruireBloc(plateau);
+                inJeu = verification.verifVictoireDefaite(plateau, premierJoueur);
+                if (inJeu){
+                    System.out.println(premierJoueur.getPseudo() + " a toi de jouer");
+                    plateau = mouvementClasse.mouvement(plateau, premierJoueur);
+                    afficherTableau(plateau);
+                    plateau = DetruireBloc.detruireBloc(plateau);
+                }else {
+                       perdant = premierJoueur;
+                }
             } else if (aQuiDeJouer == 1) {
                 aQuiDeJouer = 0;
-                System.out.println(deuxiemeJoueur.getPseudo() + " a toi de jouer");
-                plateau = mouvementClasse.mouvement(plateau, deuxiemeJoueur);
-                afficherTableau(plateau);
-                plateau = DetruireBloc.detruireBloc(plateau);
+                inJeu = verification.verifVictoireDefaite(plateau, deuxiemeJoueur);
+                if (inJeu){
+                    System.out.println(deuxiemeJoueur.getPseudo() + " a toi de jouer");
+                    plateau = mouvementClasse.mouvement(plateau, deuxiemeJoueur);
+                    afficherTableau(plateau);
+                    plateau = DetruireBloc.detruireBloc(plateau);
+                }else {
+                    perdant = deuxiemeJoueur;
+                }
             }
         }
+        System.out.println(perdant.getPseudo() + " vous avez perdu");
     }
 }

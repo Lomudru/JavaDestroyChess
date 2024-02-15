@@ -1,7 +1,7 @@
 package fonctionnalite;
 
 import classe.Joueur;
-
+import fonctionnalite.Regles;
 import java.util.Scanner;
 
 public class Mouvement {
@@ -10,10 +10,11 @@ public class Mouvement {
         Scanner scanner = new Scanner(System.in);
         String direction;
         boolean inMouvement = true;
+        Regles regles = new Regles();
         while (inMouvement){
             // demande au joueur ou il veut se déplacé et on lui montre les settings du jeu
             System.out.println("Où voulez vous vous dirigez");
-            System.out.println("Z: haut| Q: gauche| S: bas|D:droite");
+            System.out.println("Z: haut| Q: gauche| S: bas| D:droite| Regles: regles");
             direction = scanner.nextLine();
             // lorsque le joueur appui sur z ilse déplace vers la haut
             if (direction.toLowerCase().equals("z") && aFaireBouger.getCoordoneeX()-1 != -1){
@@ -60,6 +61,8 @@ public class Mouvement {
                     // si la case ou le joueur veut se déplacé est occupé par un autre alors on affiche se message
                     System.out.println("La case est deja occuper");
                 }
+            }else if (direction.toLowerCase().equals("regles")){
+                   regles.regles();
             }else {
                 // si le joueur appui sur une autre touche que Z Q S D alors on affiche se message d'erreur et il peut recommencer
                 System.out.println("Commande inconnue, veuillez ressayer");
