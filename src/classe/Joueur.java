@@ -1,6 +1,8 @@
 package classe;
+import java.io.Serializable;
+
 /** La Classe des joueurs */
-public class Joueur {
+public class Joueur implements Serializable {
     int score = 0;
     String Pseudo;
     int coordoneeX;
