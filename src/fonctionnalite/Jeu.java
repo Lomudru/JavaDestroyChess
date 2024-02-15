@@ -3,6 +3,7 @@ package fonctionnalite;
 import classe.Joueur;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Jeu {
     public static void afficherTableau(int[][] Tableau){
@@ -36,12 +37,15 @@ public class Jeu {
 
     /** Fonction qui prépare tout ce qui vas se passer dans le jeu */
     public static void setupJeu(int[][] plateau){
+        Scanner scannerJoueurs = new Scanner(System.in);
         // Defini les joueurs et leurs attribue une couleurs
         Joueur joueur1 = new Joueur();
-        joueur1.setPseudo("Rouge");
+        System.out.println("Pseudo du joueur 1");
+        joueur1.setPseudo(scannerJoueurs.nextLine());
         joueur1.setCouleur(2);
         Joueur joueur2 = new Joueur();
-        joueur2.setPseudo("Bleu");
+        System.out.println("Pseudo du joueur 2");
+        joueur2.setPseudo(scannerJoueurs.nextLine());
         joueur2.setCouleur(3);
         // On crée un tableau avec les jouers afin d'en choisir un au hasard
         Joueur[] toutLesJoueurs = new Joueur[]{joueur1, joueur2};
@@ -79,13 +83,13 @@ public class Jeu {
             if (aQuiDeJouer == 0){
                 aQuiDeJouer = 1;
                 System.out.println(premierJoueur.getPseudo() + " a toi de jouer");
-                plateau = mouvementClasse.mouvement(plateau, premierJoueur, new Joueur[]{premierJoueur,deuxiemeJoueur});
+                plateau = mouvementClasse.mouvement(plateau, premierJoueur);
                 afficherTableau(plateau);
                 plateau = DetruireBloc.detruireBloc(plateau);
             } else if (aQuiDeJouer == 1) {
                 aQuiDeJouer = 0;
                 System.out.println(deuxiemeJoueur.getPseudo() + " a toi de jouer");
-                plateau = mouvementClasse.mouvement(plateau, deuxiemeJoueur, new Joueur[]{premierJoueur,deuxiemeJoueur});
+                plateau = mouvementClasse.mouvement(plateau, deuxiemeJoueur);
                 afficherTableau(plateau);
                 plateau = DetruireBloc.detruireBloc(plateau);
             }

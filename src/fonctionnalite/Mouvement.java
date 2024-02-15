@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 public class Mouvement {
     /** Fonction de déplacement pour le joueur */
-    public static int[][] mouvement(int[][] plateau, Joueur aFaireBouger, Joueur[] joueurs){
+    public static int[][] mouvement(int[][] plateau, Joueur aFaireBouger){
         Scanner scanner = new Scanner(System.in);
         String direction;
-        boolean inMovement = true;
-        while (inMovement){
+        boolean inMouvement = true;
+        while (inMouvement){
             // demande au joueur ou il veut se déplacé et on lui montre les settings du jeu
             System.out.println("Où voulez vous vous dirigez");
             System.out.println("Z: haut| Q: gauche| S: bas|D:droite");
@@ -20,7 +20,7 @@ public class Mouvement {
                 if (plateau[aFaireBouger.getCoordoneeX()-1][aFaireBouger.getCoordoneeY()] == 0){
                     plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
                     aFaireBouger.setCoordoneeX(aFaireBouger.getCoordoneeX()-1);
-                    inMovement = false;
+                    inMouvement = false;
                 }else {
                     System.out.println("La case est deja occuper");
                 }
@@ -29,7 +29,7 @@ public class Mouvement {
                 if (plateau[aFaireBouger.getCoordoneeX()+1][aFaireBouger.getCoordoneeY()] == 0){
                     plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
                     aFaireBouger.setCoordoneeX(aFaireBouger.getCoordoneeX()+1);
-                    inMovement = false;
+                    inMouvement = false;
                 }else {
                     System.out.println("La case est deja occuper");
                 }
@@ -42,7 +42,7 @@ public class Mouvement {
                     plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
                     // on déplace le joueur en -1 en
                     aFaireBouger.setCoordoneeY(aFaireBouger.getCoordoneeY()-1);
-                    inMovement = false;
+                    inMouvement = false;
                 }else {
                     System.out.println("La case est deja occuper");
                 }
@@ -55,7 +55,7 @@ public class Mouvement {
                     plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = 0;
                     // on déplace le joueur en +1 en y
                     aFaireBouger.setCoordoneeY(aFaireBouger.getCoordoneeY()+1);
-                    inMovement = false;
+                    inMouvement = false;
                 }else {
                     // si la case ou le joueur veut se déplacé est occupé par un autre alors on affiche se message
                     System.out.println("La case est deja occuper");
@@ -65,8 +65,7 @@ public class Mouvement {
                 System.out.println("Commande inconnue, veuillez ressayer");
             }
         }
-        plateau[joueurs[0].getCoordoneeX()][joueurs[0].getCoordoneeY()] = joueurs[0].getCouleur();
-        plateau[joueurs[1].getCoordoneeX()][joueurs[1].getCoordoneeY()] = joueurs[1].getCouleur();
+        plateau[aFaireBouger.getCoordoneeX()][aFaireBouger.getCoordoneeY()] = aFaireBouger.getCouleur();
         return plateau;
     }
 
