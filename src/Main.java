@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.io.File;
 import java.awt.Desktop;
 import java.net.URI;
-
+import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         System.out.print("\033[H\033[2J");  
@@ -119,12 +119,20 @@ public class Main {
                 }
             }
         }else if ((reponse.toLowerCase().equals("rick"))){
+            // Easter Egg petit
             try {
                 Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=xvFZjo5PgG0"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
+        }else if ((reponse.toLowerCase().equals("petit"))){
+            // Easter Egg petit
+            try {
+                Desktop.getDesktop().browse(new URI("https://cdn.discordapp.com/attachments/1206942782405738527/1208008876180508702/Capture_decran_2024-02-16_a_12.15.43.png?ex=65e1b8ef&is=65cf43ef&hm=7c0fb0be6616225721df462af298df783501f5516389c75d5db31e283a2c2747&"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
             // Sinon, on précise que nous n'avons pas compris
             System.out.println("Commande non reconnue, veuillez réessayer");
         }
