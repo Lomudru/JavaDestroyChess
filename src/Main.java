@@ -8,6 +8,8 @@ import fonctionnalite.Scores;
 import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.swing.*;
 import java.io.File;
+import java.awt.Desktop;
+import java.net.URI;
 
 public class Main {
     public static void main(String[] args) {
@@ -116,7 +118,13 @@ public class Main {
                     inQuitter = false;
                 }
             }
-        } else {
+        }else if ((reponse.toLowerCase().equals("rick"))){
+            try {
+                Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=xvFZjo5PgG0"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
             // Sinon, on précise que nous n'avons pas compris
             System.out.println("Commande non reconnue, veuillez réessayer");
         }
