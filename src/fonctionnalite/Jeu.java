@@ -5,6 +5,9 @@ import fonctionnalite.VerifVictoireDefaite;
 import fonctionnalite.Scores;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -42,146 +45,184 @@ public class Jeu {
                 // Si la case vaut 3, soit le joueur 2, affiche un carré bleu
                 if (tableau[idLignes][idColonnes] == 3) {
                     System.out.printf("\uD83D\uDFE6");
+                }// Si la case vaut 2, soit le joueur 1, affiche un carré vert
+                if (tableau[idLignes][idColonnes] == 4) {
+                    System.out.printf("🟩");
+                }
+                // Si la case vaut 3, soit le joueur 2, affiche un carré jaune
+                if (tableau[idLignes][idColonnes] == 5) {
+                    System.out.printf("🟨");
                 }
             }
             System.out.printf("\n");
         }
     }
 
+    // Méthode pour vérifier si le pseudo est similaire à celui d'un joueur dans la liste
+    private static boolean pseudoSimilaireAListe(String pseudo, List<Joueur> joueurs) {
+        for (Joueur joueur : joueurs) {
+            if (pseudo.equals(joueur.getPseudo())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** Fonction qui prépare tout ce qui va se passer dans le jeu */
-    public static void setupJeu(int[][] plateau){
+    public static void setupJeu(){
+        int[][] plateau = {{0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0,0,0,0,0}};
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
         Scores scores = new Scores();
         Scanner scannerJoueurs = new Scanner(System.in);
-        // Demande aux joueurs de choisir un nom
-        Joueur joueur1 = new Joueur();
+        // Demande aux joueurs combien il seront
+        int nombreJoueurs = 0;
+        while (nombreJoueurs < 2 || nombreJoueurs > 4) {
+            System.out.println("Combien de joueur êtes vous?\n[2] [3] [4]");
+            try {
+                // Tentative de conversion de la chaîne en entier
+                nombreJoueurs = Integer.parseInt(scannerJoueurs.nextLine());
+            } catch (NumberFormatException e) {
+                // Gestion de l'exception en cas d'échec de conversion
+                System.out.println("veuillez entrer un chiffre entre 2 et 4");
+            }
+            if (nombreJoueurs < 2 || nombreJoueurs > 4) {
+                System.out.println("veuillez entrer un chiffre entre 2 et 4");
+            }
+        }
+        ArrayList<Joueur> listeJoueurs = new ArrayList<>();
+        Joueur joueur = new Joueur();
         System.out.println("Pseudo du joueur 1");
-        String pseudo1 = scannerJoueurs.nextLine();
-        Joueur joueur2 = new Joueur();
-        // S'assure que le joueur 2 choisisse un nom différent du joueur 1
-        String pseudo2 = pseudo1;
-        System.out.println("Pseudo du joueur 2");
-        while (pseudo2.equals(pseudo1)){
-            pseudo2 = scannerJoueurs.nextLine();
-            if (pseudo2.equals(pseudo1)){
-                System.out.println("Ce pseudo est déjà utilisé par le joueur 1. Choisissez-en un autre.");
+        String pseudo = scannerJoueurs.nextLine();
+        boolean existeDeja = false;
+        // si un joueur ayant déjà jouer porte le meme pseudo que l'utilisateur, récupère ses paramètre
+        for(int j = 0; j < scores.getDejaJouer().size(); j++){
+            if (scores.getDejaJouer().get(j).getPseudo().equals(pseudo)){
+                joueur = scores.getDejaJouer().get(j);
+                existeDeja = true;
             }
         }
-        // Teste si le nom des joueurs existe déjà et si c'est le cas, récupère ce dernier
-        boolean joueur1Existe = false;
-        boolean joueur2Existe = false;
-        for(int i = 0; i < scores.getDejaJouer().size(); i++){
-            if (scores.getDejaJouer().get(i).getPseudo().equals(pseudo1)){
-                joueur1 = scores.getDejaJouer().get(i);
-                joueur1Existe = true;
+        if (!existeDeja){
+            joueur.setPseudo(pseudo);
+            scores.addDejaJouer(joueur);
+        }
+        listeJoueurs.add(joueur);
+        for (int i = 1; i < nombreJoueurs; i++){
+            joueur = new Joueur();
+            while (pseudoSimilaireAListe(pseudo, listeJoueurs)){
+                existeDeja = false;
+                // Demande aux joueurs de choisir un nom
+                System.out.println("Pseudo du joueur "+(i+1));
+                pseudo = scannerJoueurs.nextLine();
+                // s'assure qu'il n'u ait pas de doublons dans les pseudo
+                if (pseudoSimilaireAListe(pseudo, listeJoueurs)){
+                    System.out.println("Ce pseudo est déjà pris par un autre joueur euillez en choisir un autre");
+                } else{
+                    // si un joueur ayant déjà jouer porte le meme pseudo que l'utilisateur, récupère ses paramètre
+                    for(int j = 0; j < scores.getDejaJouer().size(); j++){
+                        if (scores.getDejaJouer().get(j).getPseudo().equals(pseudo)){
+                            joueur = scores.getDejaJouer().get(j);
+                            existeDeja = true;
+                        }
+                    }
+                    if (!existeDeja){
+                        joueur.setPseudo(pseudo);
+                        scores.addDejaJouer(joueur);
+                    }
+                }
             }
-            else if (scores.getDejaJouer().get(i).getPseudo().equals(pseudo2)){
-                joueur2 = scores.getDejaJouer().get(i);
-                joueur2Existe = true;
+            listeJoueurs.add(joueur);
+        }
+        System.out.println(listeJoueurs);
+        // boucle sur les joueurs
+        for (int i = 0; i < listeJoueurs.size(); i++){
+            // Attribue une couleur aux joueurs
+            listeJoueurs.get(i).setCouleur(i+2);
+            // On met les coordonnées par défaut aux joueurs selon leurs nombres
+            if ((nombreJoueurs == 2) || (nombreJoueurs == 4)){
+                listeJoueurs.get(i).setCoordoneeX((4-((nombreJoueurs-2)/2))+i);
+                listeJoueurs.get(i).setCoordoneeY(5);
             }
+            if (nombreJoueurs == 3){
+                listeJoueurs.get(i).setCoordoneeX(4);
+                listeJoueurs.get(i).setCoordoneeY(4+i);
+            }
+            plateau[listeJoueurs.get(i).getCoordoneeX()][listeJoueurs.get(i).getCoordoneeY()] = listeJoueurs.get(i).getCouleur();
         }
-        // Attribue une couleur aux joueurs
-        joueur1.setCouleur(2);
-        joueur2.setCouleur(3);
-        // Si les joueurs n'ont jamais joué, les ajoute dans le tableau des scores
-        if (!joueur1Existe){
-            joueur1.setPseudo(pseudo1);
-            scores.addDejaJouer(joueur1);
-        }
-        if (!joueur2Existe){
-            joueur2.setPseudo(pseudo2);
-            scores.addDejaJouer(joueur2);
-        }
-        // On crée un tableau avec les joueurs afin d'en choisir un au hasard
-        Joueur[] tousLesJoueurs = new Joueur[]{joueur1, joueur2};
-        Random joueurAleatoire = new Random();
-        // On en choisit un au hasard afin qu'il soit le premier à jouer et on définit le deuxième joueur en fonction du premier
-        int choixDuJoueurAleatoire = joueurAleatoire.nextInt(tousLesJoueurs.length);
-        Joueur premierAJouer = tousLesJoueurs[choixDuJoueurAleatoire];
-        Joueur deuxiemeAJouer;
-        if (choixDuJoueurAleatoire == 1){
-            deuxiemeAJouer = tousLesJoueurs[0];
-        }else {
-            deuxiemeAJouer = tousLesJoueurs[1];
-        }
-        // On met les coordonnées par défaut au premier joueur
-        premierAJouer.setCoordoneeX(4);
-        premierAJouer.setCoordoneeY(5);
-        // On met les coordonnées par défaut au deuxième joueur
-        deuxiemeAJouer.setCoordoneeX(5);
-        deuxiemeAJouer.setCoordoneeY(5);
-        // Place les joueurs sur le plateau et affiche ce dernier
-        plateau[premierAJouer.getCoordoneeX()][premierAJouer.getCoordoneeY()] = premierAJouer.getCouleur();
-        plateau[deuxiemeAJouer.getCoordoneeX()][deuxiemeAJouer.getCoordoneeY()] = deuxiemeAJouer.getCouleur();
-        Jeu(plateau, premierAJouer, deuxiemeAJouer);
+        Jeu(plateau, listeJoueurs);
     }
 
     public static int aQuiDeJouer = 0;
 
     /** Fonction de déroulement du jeu */
-    public static void Jeu(int[][] plateau, Joueur premierJoueur, Joueur deuxiemeJoueur){
+    public static void Jeu(int[][] plateau, ArrayList<Joueur> listeJoueurs){
         // Initialise les variables utiles au déroulement du jeu
         Mouvement mouvementClasse = new Mouvement();
         int[][] mouvement;
         VerifVictoireDefaite verification = new VerifVictoireDefaite();
-        boolean inJeu = true;
-        Joueur perdant = new Joueur();
+        ArrayList<Joueur> perdants = new ArrayList<>();
         Joueur gagnant = new Joueur();
         // Boucle le jeu tant que personne n'a gagné
-        while (inJeu){
-            System.out.print("\033[H\033[2J");  
-            System.out.flush();  
-            afficherTableau(plateau);
+        while (listeJoueurs.size() > 1){
             // Permet de déterminer de qui est le tour de jouer
-            if (aQuiDeJouer == 0){
-                aQuiDeJouer = 1;
-                // Vérifie que le joueur n'a pas perdu, c'est-à-dire qu'il peut encore bouger
-                inJeu = verification.verifVictoireDefaite(plateau, premierJoueur);
-                if (inJeu){
-                    // Demande au joueur où est-ce qu'il veut bouger
-                    System.out.println(premierJoueur.getPseudo() + ", à toi de jouer");
-                    plateau = mouvementClasse.mouvement(plateau, premierJoueur);
-                    System.out.print("\033[H\033[2J");  
-                    System.out.flush();  
-                    afficherTableau(plateau);
-                    // Demande au joueur quelle case il veut détruire
-                    plateau = DetruireBloc.detruireBloc(plateau);
-                    gagnant = premierJoueur;
-                } else {
-                    perdant = premierJoueur;
+            listeJoueurs.removeAll(perdants);
+            for (Joueur joueurActuel : listeJoueurs){
+                if (!(listeJoueurs.size() > 1)){
+                    break;
                 }
-            } else if (aQuiDeJouer == 1) {
-                aQuiDeJouer = 0;
+                System.out.print("\033[H\033[2J");  
+                System.out.flush(); 
+                System.out.println(listeJoueurs.size());
+                afficherTableau(plateau);
                 // Vérifie que le joueur n'a pas perdu, c'est-à-dire qu'il peut encore bouger
-                inJeu = verification.verifVictoireDefaite(plateau, deuxiemeJoueur);
-                if (inJeu){
+                joueurActuel.setMort(verification.VerifDefaite(plateau, joueurActuel));
+                if (!joueurActuel.getMort()){
                     // Demande au joueur où est-ce qu'il veut bouger
-                    System.out.println(deuxiemeJoueur.getPseudo() + ", à toi de jouer");
-                    plateau = mouvementClasse.mouvement(plateau, deuxiemeJoueur);
+                    System.out.println(joueurActuel.getPseudo() + ", à toi de jouer");
+                    plateau = mouvementClasse.mouvement(plateau, joueurActuel);
                     System.out.print("\033[H\033[2J");  
                     System.out.flush();  
                     afficherTableau(plateau);
                     // Demande au joueur quelle case il veut détruire
                     plateau = DetruireBloc.detruireBloc(plateau);
-                    gagnant = deuxiemeJoueur;
                 } else {
-                    perdant = deuxiemeJoueur;
+                    perdants.add(joueurActuel);
+                    if (listeJoueurs.size() > 1){
+                        break;
+                    }
                 }
             }
         }
+        gagnant = listeJoueurs.get(0);
         // Modifie les scores des joueurs selon leur victoire ou défaite
         gagnant.setScore(gagnant.getScore() + 5);
-        perdant.setScore(perdant.getScore() - 2);
         // Félicite le gagnant et informe le perdant de la victoire et de la défaite
+        System.out.println(gagnant.getPseudo() + ", bravo, vous avez gagné");
+        for (Joueur perdant : perdants){
+            System.out.printf(perdant.getPseudo() + ", ");
+            perdant.setScore(perdant.getScore() - 2);
+        }
+        System.out.printf("vous avez perdue");
         Scanner scanner = new Scanner(System.in);
         String reponse = "1";
         while (!reponse.equals("0")) {
-            System.out.println(gagnant.getPseudo() + ", bravo, vous avez gagné");
-            System.out.println(perdant.getPseudo() + ", vous avez perdu");
-            System.out.println("[0] Revenir au menu");
+            System.out.println("\n[0] Revenir au menu");
             if ((!reponse.equals("0")) && (!reponse.equals("1"))){
                 System.out.println("entrée incorrect!");
             }
             reponse = scanner.nextLine();
+            System.out.print("\033[H\033[2J");  
+            System.out.flush(); 
         }
     }
 }
+

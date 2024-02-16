@@ -8,6 +8,7 @@ public class Joueur implements Serializable {
     int coordoneeX;
     int coordoneeY;
     int couleur;
+    boolean mort;
 
     public int getScore() {
         return score;
@@ -47,5 +48,13 @@ public class Joueur implements Serializable {
 
     public void setCouleur(int couleur) {
         this.couleur = couleur;
+    }
+
+    public boolean getMort() {
+        return mort;
+    }
+
+    public void setMort(boolean mort) {
+        this.mort = mort;
     }
 }

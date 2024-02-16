@@ -74,19 +74,9 @@ public class Main {
         // Demande à l'utilisateur de choisir une option
         String reponse = scanner.nextLine();
         if ((reponse.equals("1")) || reponse.toLowerCase().equals("jouer")) {
-            // Si la réponse est 1 ou jouer, on redirige vers le jeu et génère le plateau
-            int[][] plateauDeJeu = {{0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0}};
+            // Si la réponse est 1 ou jouer, on redirige vers le jeu
             Jeu jeu = new Jeu();
-            jeu.setupJeu(plateauDeJeu);
+            jeu.setupJeu();
         } else if ((reponse.equals("2")) || reponse.toLowerCase().equals("scores")) {
             // Si la réponse est 2 ou scores, on affiche les scores
             scores.afficherScores();
